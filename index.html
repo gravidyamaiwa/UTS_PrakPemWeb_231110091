@@ -1,0 +1,898 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eyeve - Windows to the soul</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            color: #788176;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+        
+        header {
+            background-color: rgba(204, 185, 153, 0.9);
+            padding: 15px 0;
+            position: fixed;
+            width: 100%;
+            z-index: 10;
+        }
+        
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #5e1803;
+        }
+        
+        .nav-links {
+            display: flex;
+            list-style: none;
+            margin-left: auto;
+            margin-right: 30px;
+        }
+        
+        .nav-links li {
+            margin-left: 30px;
+        }
+        
+        .nav-links a {
+            text-decoration: none;
+            color: #5e1803;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+        
+        .nav-links a:hover, .nav-links a.active {
+            color: #CCB999;
+            background-color: #5e1803;
+            padding: 5px 10px;
+            border-radius: 4px;
+        }
+        
+        .cart-icon {
+            font-size: 1.2rem;
+            cursor: pointer;
+        }
+        
+        
+        .page {
+            display: none;
+            padding-top: 80px; 
+        }
+        
+        .page.active {
+            display: block;
+        }
+        
+        .hero {
+            height: 80vh;
+            background-color: #CCB999;
+            position: relative;
+            display: flex;
+            align-items: center;
+            text-align: center;
+            background-image: linear-gradient(rgba(204, 185, 153, 0.7), rgba(204, 185, 153, 0.7)), url('/api/placeholder/1200/700');
+            background-size: cover;
+            background-position: center;
+            color: #5e1803;
+        }
+        
+        .hero-content {
+            width: 100%;
+            z-index: 1;
+            padding: 0 20px;
+        }
+        
+        .hero-content h5 {
+            font-size: 1rem;
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+            font-weight: 400;
+        }
+        
+        .hero-content h1 {
+            font-size: 3rem;
+            margin-bottom: 30px;
+            font-weight: 600;
+        }
+        
+        .btn {
+            display: inline-block;
+            background-color: #5e1803;
+            color: #CCB999;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 4px;
+            font-weight: 500;
+            text-decoration: none;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+        
+        .btn:hover {
+            background-color: #CCB999;
+            color: #5e1803;
+        }
+        
+        .new-softlens {
+            padding: 60px 0;
+        }
+        
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+        
+        .section-header h2 {
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+        
+        .products {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+        
+        @media (max-width: 768px) {
+            .products {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .products {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .product {
+            background-color: #f5f0e8;
+            border-radius: 8px;
+            overflow: hidden;
+            transition: transform 0.3s;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        
+        .product:hover {
+            transform: translateY(-5px);
+        }
+        
+        .product-img {
+            height: 250px;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #CCB999;
+            overflow: hidden;
+        }
+        
+        .product-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s;
+        }
+        
+        .product:hover .product-img img {
+            transform: scale(1.05);
+        }
+        
+        .product-info {
+            padding: 15px;
+        }
+        
+        .product-name {
+            font-weight: 500;
+            margin-bottom: 5px;
+        }
+        
+        .product-price {
+            color: #5e1803;
+            font-weight: 600;
+        }
+        
+        .product-btn {
+            margin-top: 10px;
+            width: 100%;
+            padding: 8px;
+            text-align: center;
+        }
+        
+        .about {
+            padding: 60px 0;
+            background-color: #f5f0e8;
+        }
+        
+        .about-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            align-items: center;
+        }
+        
+        @media (max-width: 768px) {
+            .about-container {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .about-img {
+            height: 400px;
+            width: 100%;
+            background-color: #CCB999;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        
+        .about-content h3 {
+            font-size: 0.9rem;
+            color: #5e1803;
+            margin-bottom: 5px;
+            letter-spacing: 1px;
+        }
+        
+        .about-content h2 {
+            font-size: 2rem;
+            margin-bottom: 20px;
+            color: #5e1803;
+        }
+        
+        .about-content p {
+            margin-bottom: 25px;
+            color: #5e1803;
+        }
+        
+        .testimonials {
+            padding: 60px 0;
+            background-color: #fff;
+        }
+        
+        .testimonials h2 {
+            text-align: center;
+            margin-bottom: 40px;
+            font-size: 2rem;
+            color: #5e1803;
+        }
+        
+        .testimonial-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+        }
+        
+        @media (max-width: 768px) {
+            .testimonial-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .testimonial {
+            text-align: center;
+            padding: 30px;
+            background-color: #f5f0e8;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+        }
+        
+        .testimonial p {
+            margin-bottom: 20px;
+            font-style: italic;
+            color: #5e1803;
+        }
+        
+        .testimonial-rating {
+            color: #5e1803;
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+        }
+        
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .author-img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: #CCB999;
+            margin-right: 10px;
+            overflow: hidden;
+        }
+        
+        .author-name {
+            font-weight: 500;
+        }
+        
+        .features {
+            display: flex;
+            justify-content: space-around;
+            padding: 40px 0;
+            background-color: #CCB999;
+        }
+        
+        @media (max-width: 768px) {
+            .features .container {
+                flex-direction: column;
+                gap: 20px;
+            }
+        }
+        
+        .feature {
+            display: flex;
+            align-items: center;
+        }
+        
+        .feature-icon {
+            width: 40px;
+            height: 40px;
+            background-color: #5e1803;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-right: 15px;
+            color: #CCB999;
+        }
+        
+        .feature-text h4 {
+            font-weight: 600;
+            margin-bottom: 5px;
+            color: #5e1803;
+        }
+        
+        .feature-text p {
+            color: #5e1803;
+            font-size: 0.9rem;
+        }
+        
+        .contact-form {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 40px 0;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+            color: #5e1803;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #CCB999;
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+        
+        textarea.form-control {
+            min-height: 150px;
+            resize: vertical;
+        }
+        
+        .submit-btn {
+            background-color: #5e1803;
+            color: #CCB999;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+        
+        .submit-btn:hover {
+            background-color: #CCB999;
+            color: #5e1803;
+        }
+        
+        footer {
+            background-color: #222;
+            color: #CCB999;
+            padding: 30px 0;
+        }
+        
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        @media (max-width: 768px) {
+            .footer-content {
+                flex-direction: column;
+                gap: 20px;
+                text-align: center;
+            }
+        }
+        
+        .footer-logo {
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+        
+        .footer-links {
+            display: flex;
+            list-style: none;
+        }
+        
+        .footer-links a {
+            color: #CCB999;
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+        
+        .footer-social a {
+            color: #CCB999;
+            margin-left: 15px;
+            font-size: 1.2rem;
+        }
+        
+        .copyright {
+            text-align: center;
+            padding-top: 20px;
+            font-size: 0.8rem;
+            opacity: 0.7;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .fade-in {
+            animation: fadeIn 0.5s ease forwards;
+        }
+        
+        .pagination {
+            display: flex;
+            justify-content: center;
+            margin: 40px 0;
+        }
+        
+        .pagination .page-btn {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 5px;
+            border-radius: 50%;
+            background-color: #CCB999;
+            color: #5e1803;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+        }
+        
+        .pagination .page-btn:hover {
+            background-color: #5e1803;
+            color: #CCB999;
+        }
+        
+        .pagination .page-btn.active {
+            background-color: #5e1803;
+            color: #CCB999;
+        }
+        
+        .page-navigation {
+            display: flex;
+            justify-content: space-between;
+            margin: 30px 0;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container navbar">
+            <div class="logo">Eyeve</div>
+            <ul class="nav-links">
+                <li><a href="#" class="nav-link active" data-page="page1">Home</a></li>
+                <li><a href="#" class="nav-link" data-page="page2">Softlens</a></li>
+                <li><a href="#" class="nav-link" data-page="page3">Contact</a></li>
+            </ul>
+            <div class="cart-icon">🛒</div>
+        </div>
+    </header>
+
+    <div id="page1" class="page active">
+        <section class="hero">
+            <div class="hero-content">
+                <h5>WELCOME TO EYEVE</h5>
+                <h1>Let Your Eyes Do the Talking</h1>
+                <h5>Dengan desain eksklusif dan bahan yang lembut di mata, softlens dari Eyeve hadir untuk kamu yang ingin tampil percaya diri tanpa harus mengorbankan kenyamanan. Kami memahami bahwa setiap mata memiliki karakter unik, dan itulah mengapa setiap lensa kami dirancang dengan presisi—untuk menyatu dengan gaya hidupmu yang dinamis.</h5> <br>
+                <a href="#" class="btn nav-link" data-page="page2">Shop Now</a>
+            </div>
+        </section>
+
+        <section class="new-softlens">
+            <div class="container">
+                <div class="section-header">
+                    <h2>FEATURED COLLECTION</h2>
+                    <a href="#" class="btn nav-link" data-page="page2">View All</a>
+                </div>
+                <div class="products">
+                    <div class="product">
+                        <div class="product-img">
+                            <img src="black.jpg" alt="Shiny Black">
+                        </div>
+                        <div class="product-info">
+                            <p class="product-name">Shiny Black</p>
+                            <p class="product-price">IDR 250.000</p>
+                            <a href="#" class="btn product-btn">Add to Cart</a>
+                        </div>
+                    </div>
+                    
+                    <div class="product">
+                        <div class="product-img">
+                            <img src="blue nature.jpg" alt="Natural Blue">
+                        </div>
+                        <div class="product-info">
+                            <p class="product-name">Natural Blue</p>
+                            <p class="product-price">IDR 300.000</p>
+                            <a href="#" class="btn product-btn">Add to Cart</a>
+                        </div>
+                    </div>
+                    
+                    <div class="product">
+                        <div class="product-img">
+                            <img src="brown.jpg" alt="Brown Glosy">
+                        </div>
+                        <div class="product-info">
+                            <p class="product-name">Brown Glosy</p>
+                            <p class="product-price">IDR 345.000</p>
+                            <a href="#" class="btn product-btn">Add to Cart</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <div class="container page-navigation">
+            <div></div> 
+            <a href="#" class="btn nav-link" data-page="page2">Next Page →</a>
+        </div>
+
+
+        <div class="pagination">
+            <a href="#" class="page-btn active" data-page="page1">1</a>
+            <a href="#" class="page-btn" data-page="page2">2</a>
+            <a href="#" class="page-btn" data-page="page3">3</a>
+        </div>
+    </div>
+
+
+    <div id="page2" class="page">
+        <section class="about">
+            <div class="container about-container">
+                <div class="about-img">
+                    <img src="our story.jpg" alt="Our Story" style="width: 100%; height: 100%; object-fit: cover;">
+                </div>
+                <div class="about-content">
+                    <h2>OUR STORY</h2>
+                    <p>Kami adalah brand yang lahir dari impian sederhana: membantu setiap orang merasa percaya diri dengan penampilan mereka. Kami memahami bahwa kenyamanan dan keamanan adalah utama dalam memilih softlens. Karena itu, kami hanya menyediakan produk berkualitas tinggi, bersertifikat, dan telah melalui proses seleksi yang ketat.</p>
+                    <p>Dari berbagai warna hingga ukuran yang sesuai, kami hadir untuk semua gaya dan kebutuhan. Lebih dari sekedar produk, kami ingin menjadi bagian dari perjalanan kecantikan dan kepercayaan dirimu.</p>
+                    <a href="#" class="btn">Learn More</a>
+                </div>
+            </div>
+        </section>
+        
+        <section class="container" style="padding: 60px 0;">
+            <h1 style="text-align: center; margin-bottom: 40px; color: #5e1803;">OUR COLLECTION</h1>
+            
+            <div class="products">
+                <div class="product">
+                    <div class="product-img">
+                        <img src="black.jpg" alt="Shiny Black">
+                    </div>
+                    <div class="product-info">
+                        <p class="product-name">Shiny Black</p>
+                        <p class="product-price">IDR 250.000</p>
+                        <a href="#" class="btn product-btn">Add to Cart</a>
+                    </div>
+                </div>
+                
+                <div class="product">
+                    <div class="product-img">
+                        <img src="blue nature.jpg" alt="Natural Blue">
+                    </div>
+                    <div class="product-info">
+                        <p class="product-name">Natural Blue</p>
+                        <p class="product-price">IDR 300.000</p>
+                        <a href="#" class="btn product-btn">Add to Cart</a>
+                    </div>
+                </div>
+                
+                <div class="product">
+                    <div class="product-img">
+                        <img src="brown.jpg" alt="Brown Glosy">
+                    </div>
+                    <div class="product-info">
+                        <p class="product-name">Brown Glosy</p>
+                        <p class="product-price">IDR 345.000</p>
+                        <a href="#" class="btn product-btn">Add to Cart</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    
+        <div class="container page-navigation">
+            <a href="#" class="btn nav-link" data-page="page1">← Previous Page</a>
+            <a href="#" class="btn nav-link" data-page="page3">Next Page →</a>
+        </div>
+
+
+        <div class="pagination">
+            <a href="#" class="page-btn" data-page="page1">1</a>
+            <a href="#" class="page-btn active" data-page="page2">2</a>
+            <a href="#" class="page-btn" data-page="page3">3</a>
+        </div>
+    </div>
+
+    
+    <div id="page3" class="page">
+        <section class="testimonials">
+            <div class="container">
+                <h2>Review Customer</h2>
+                <div class="testimonial-grid">
+                    <div class="testimonial">
+                        <div class="testimonial-rating">⭐⭐⭐⭐⭐</div>
+                        <p>Aku pakai softlens ini untuk daily look ke kantor. Nggak kering sama sekali, dan bener-bener cocok buat mata sensitif kayak aku.</p>
+                        <div class="testimonial-author">
+                            <div class="author-img">
+                                <img src="jennie kim.jpg" alt="Jennie Kim" style="width: 100%; height: 100%; object-fit: cover;">
+                            </div>
+                            <span class="author-name">JENNIE KIM</span>
+                        </div>
+                    </div>
+                    
+                    <div class="testimonial">
+                        <div class="testimonial-rating">⭐⭐⭐⭐⭐</div>
+                        <p>Aku suka karena selain nyaman, packaging-nya juga rapi dan eksklusif. Warnanya cantik dan bikin mata makin hidup. Dapat banyak pujian setelah pakai ini waktu kondangan.</p>
+                        <div class="testimonial-author">
+                            <div class="author-img">
+                                <img src="karina.jpg" alt="Karina" style="width: 100%; height: 100%; object-fit: cover;">
+                            </div>
+                            <span class="author-name">KARINA</span>
+                        </div>
+                    </div>
+                    
+                    <div class="testimonial">
+                        <div class="testimonial-rating">⭐⭐⭐⭐⭐</div>
+                        <p>Aku sudah coba berbagai merek softlens sebelumnya, tapi baru kali ini nemu yang benar-benar nyaman dipakai seharian. Warnanya juga natural banget!</p>
+                        <div class="testimonial-author">
+                            <div class="author-img">
+                                <img src="yeji.jpg" alt="Yeji" style="width: 100%; height: 100%; object-fit: cover;">
+                            </div>
+                            <span class="author-name">YEJI</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section class="container" style="padding-top: 60px; padding-bottom: 60px;">
+            <h1 style="text-align: center; margin-bottom: 40px; color: #5e1803;">CONTACT US</h1>
+            
+            <div class="contact-form">
+                <form id="contactForm">
+                    <div class="form-group">
+                        <label for="name">Nama</label>
+                        <input type="text" id="name" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="subject">Subject</label>
+                        <input type="text" id="subject" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="message">Pesan</label>
+                        <textarea id="message" class="form-control" required></textarea>
+                    </div>
+                    <button type="submit" class="submit-btn">Send Message</button>
+                </form>
+            </div>
+
+            <div style="margin-top: 50px; text-align: center;">
+                <h2 style="margin-bottom: 20px; color: #5e1803;">VISIT OUR STORE</h2>
+                <p style="margin-bottom: 10px;">Jl. Jembatan Merah 1 No. 88A, YOGYAKARTA</p>
+                <p style="margin-bottom: 10px;">Phone: +62 821 8969 7752</p>
+                <p>Email: Eyeve@gmail.com</p>
+            </div>
+        </section>
+
+        
+        <div class="container page-navigation">
+            <a href="#" class="btn nav-link" data-page="page2">← Previous Page</a>
+            <div></div> 
+        </div>
+
+
+        <div class="pagination">
+            <a href="#" class="page-btn" data-page="page1">1</a>
+            <a href="#" class="page-btn" data-page="page2">2</a>
+            <a href="#" class="page-btn active" data-page="page3">3</a>
+        </div>
+    </div>
+
+    <section class="features">
+        <div class="container" style="display: flex; justify-content: space-around;">
+            <div class="feature">
+                <div class="feature-icon">✓</div>
+                <div class="feature-text">
+                    <h4>SECURE PAYMENT</h4>
+                    <p>Multiple secure payment options</p>
+                </div>
+            </div>
+            <div class="feature">
+                <div class="feature-icon">✓</div>
+                <div class="feature-text">
+                    <h4>BEGINNER WITH CARE</h4>
+                    <p>Includes a beginner's guide to using softlens</p>
+                </div>
+            </div>
+            <div class="feature">
+                <div class="feature-icon">✓</div>
+                <div class="feature-text">
+                    <h4>EXCELLENT SERVICE</h4>
+                    <p>Friendly, fast-support and personalized</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container footer-content">
+            <div class="footer-logo">Eyeve</div>
+            <div class="footer-social">
+                <a href="#">📱</a>
+                <a href="#">📘</a>
+                <a href="#">🐦</a>
+            </div>
+        </div>
+        <div class="copyright">
+            © 2025 Softlens Shop. Powered by Gravidya Syahidna Maiwa (231110091).
+        </div>
+    </footer>
+
+    <script>
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const navLinks = document.querySelectorAll('.nav-link');
+            const pages = document.querySelectorAll('.page');
+            const paginationButtons = document.querySelectorAll('.page-btn');
+            
+            
+            function switchPage(targetPage) {
+                
+                pages.forEach(page => {
+                    page.classList.remove('active');
+                    page.classList.remove('fade-in');
+                });
+                
+                
+                document.getElementById(targetPage).classList.add('active');
+                document.getElementById(targetPage).classList.add('fade-in');
+                
+                
+                navLinks.forEach(navLink => {
+                    if (navLink.getAttribute('data-page') === targetPage) {
+                        navLink.classList.add('active');
+                    } else {
+                        navLink.classList.remove('active');
+                    }
+                });
+                
+                
+                paginationButtons.forEach(button => {
+                    if (button.getAttribute('data-page') === targetPage) {
+                        button.classList.add('active');
+                    } else {
+                        button.classList.remove('active');
+                    }
+                });
+                
+                
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+            }
+            
+            
+            navLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const targetPage = this.getAttribute('data-page');
+                                        switchPage(targetPage);
+                });
+            });
+            
+            
+            paginationButtons.forEach(button => {
+                button.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const targetPage = this.getAttribute('data-page');
+                    switchPage(targetPage);
+                });
+            });
+            
+            
+            const contactForm = document.getElementById('contactForm');
+            if (contactForm) {
+                contactForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    
+                    
+                    const name = document.getElementById('name').value;
+                    const email = document.getElementById('email').value;
+                    const subject = document.getElementById('subject').value;
+                    const message = document.getElementById('message').value;
+                    
+                    
+                    alert(`Thank you for your message, ${name}! We'll get back to you soon.`);
+                    
+                    
+                    contactForm.reset();
+                });
+            }
+            
+            
+            const cartIcon = document.querySelector('.cart-icon');
+            if (cartIcon) {
+                cartIcon.addEventListener('click', function() {
+                    alert('Your cart is currently empty.');
+                });
+            }
+            
+            
+            const addToCartButtons = document.querySelectorAll('.product-btn');
+            addToCartButtons.forEach(button => {
+                button.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const productName = this.closest('.product-info').querySelector('.product-name').textContent;
+                    const productPrice = this.closest('.product-info').querySelector('.product-price').textContent;
+                    
+                    alert(`Added ${productName} (${productPrice}) to your cart!`);
+                });
+            });
+        });
+    </script>
+</body>
+</html>
